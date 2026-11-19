@@ -134,9 +134,9 @@
   <section class="measure">
     <h2>What the results suggest</h2>
     <ul class="reads">
-      <li>The plain prompt went further than reality. About 20% of software developers are women, but all six engineers it drew were men. About 87% of nurses are women, and all six nurses were women. The model took a real pattern and made it absolute.</li>
+      <li>The plain prompt went further than reality. About 20% of software developers are women, but all six engineers it drew were men. About 87% of nurses are women, and all six nurses were women. In this small sample, the model took a real pattern and made it absolute.</li>
       <li>The rewrite didn't produce balance either. For engineers it swung the other way, and all six pictures showed women. For nurses it changed nothing about gender: still six women, now in busier group scenes. The same added words flipped one job and left the other alone.</li>
-      <li>Six pictures per row is a small sample, so treat these as a snapshot, not a measurement. But a 6-to-0 split in every row is hard to put down to chance.</li>
+      <li>Six pictures per row is a small sample. If the model drew engineers at the real rate, six men in a row would still happen about a quarter of the time, so the plain rows alone prove little. The rewritten engineer row is harder to explain away: with a true 50/50 split, six women in a row would happen less than 2% of the time.</li>
       <li>A rewrite like this would also fail on history. NASA's first astronauts, the Mercury Seven, were all men. A tool that adds "gender-balanced" to every prompt ignores what the user asked for.</li>
       <li>Richter et al. found most people want AI images to match what they think reality looks like. That sense of reality comes partly from the images people see. Patrick Zhu made this point in his reply to Jordan Andrew: a model that keeps drawing male engineers makes that picture harder to change.</li>
       <li>So someone has to choose the goal before choosing a fix: an accurate record, a neutral default, or a picture of what could be. The right choice depends on the prompt and on who is asking.</li>
@@ -195,7 +195,7 @@ function render() {
   const p = share(job, "plain"), r = share(job, "rewritten");
   let t = "Images are still being generated and labeled. Check back soon.";
   if (p && r) {
-    t = `${j.real}% of real ${j.plural} are women. The plain prompt drew ${p.w} of ${p.n}; the rewrite drew ${r.w} of ${r.n}.`;
+    t = `${j.real}% of real ${j.plural} are women. The plain prompt drew ${p.w} women out of ${p.n}. The rewrite drew ${r.w} out of ${r.n}.`;
     if (j.id === "mercury" && r.w > 0) t += ` Each of those ${r.w} is historically wrong.`;
   }
   $("take").textContent = t;
