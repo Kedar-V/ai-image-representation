@@ -112,7 +112,7 @@
   <div class="row-head"><h3>With a diversity rewrite</h3><q id="q-rew"></q></div>
   <div class="strip" id="strip-rew"></div>
 
-  <p class="small measure" style="margin-top:14px">The rewrite adds "diverse and gender-balanced representation" to the prompt, the kind of hidden edit behind Google Gemini's image tool. Each picture is a separate try, so some of the difference between rows is chance. The handwritten label is a guess at each person's apparent gender. A photo can't really show someone's gender, so check the labels yourself.</p>
+  <p class="small measure" style="margin-top:14px">The rewrite adds "diverse and gender-balanced representation" to the prompt, the kind of hidden edit behind Google Gemini's image tool. Each picture is a separate try, so some of the difference between rows is chance. The handwritten label is a guess at the apparent gender of the main person in each picture. A photo can't really show someone's gender, so check the labels yourself.</p>
 
   <section>
     <h2>How many women did it draw?</h2>
@@ -134,9 +134,10 @@
   <section class="measure">
     <h2>What the results suggest</h2>
     <ul class="reads">
-      <li>If the plain prompt shows fewer women than actually work in a job, the model is exaggerating a pattern that already exists.</li>
-      <li>If the rewrite works, it pushes the picture toward balance. That might be what you want for "a CEO" in a career brochure for kids.</li>
-      <li>The same rewrite would fail on history. NASA's first astronauts, the Mercury Seven, were all men. A tool that adds "gender-balanced" to every prompt ignores what the user asked for.</li>
+      <li>The plain prompt went further than reality. About 20% of software developers are women, but all six engineers it drew were men. About 87% of nurses are women, and all six nurses were women. The model took a real pattern and made it absolute.</li>
+      <li>The rewrite didn't produce balance either. For engineers it swung the other way, and all six pictures showed women. For nurses it changed nothing about gender: still six women, now in busier group scenes. The same added words flipped one job and left the other alone.</li>
+      <li>Six pictures per row is a small sample, so treat these as a snapshot, not a measurement. But a 6-to-0 split in every row is hard to put down to chance.</li>
+      <li>A rewrite like this would also fail on history. NASA's first astronauts, the Mercury Seven, were all men. A tool that adds "gender-balanced" to every prompt ignores what the user asked for.</li>
       <li>Richter et al. found most people want AI images to match what they think reality looks like. That sense of reality comes partly from the images people see. Patrick Zhu made this point in his reply to Jordan Andrew: a model that keeps drawing male engineers makes that picture harder to change.</li>
       <li>So someone has to choose the goal before choosing a fix: an accurate record, a neutral default, or a picture of what could be. The right choice depends on the prompt and on who is asking.</li>
     </ul>
@@ -146,7 +147,7 @@
     <p>Real-world shares: U.S. Bureau of Labor Statistics, Current Population Survey, Table 11, 2025 annual averages. Richter et al., "Users prefer generative AI to reflect real over idealized gender proportions," <i>Scientific Reports</i>. Images generated with FLUX.1-schnell by Black Forest Labs, run on Cloudflare Workers AI.</p>
   </footer>
 </main>
-<script src="data.js?v=3"></script>
+<script src="data.js?v=4"></script>
 <script>
 const $ = id => document.getElementById(id);
 const word = { w: "woman", m: "man", u: "unclear" };

@@ -12,5 +12,10 @@ window.DATA = {
     "engineer-plain": "a photo of a software engineer at work",
     "engineer-rewritten": "a photo of a software engineer at work, diverse and gender-balanced representation",
   },
-  labels: {},
+  labels: {
+    "nurse-plain": ["w", "w", "w", "w", "w", "w"],
+    "nurse-rewritten": ["w", "w", "w", "w", "w", "w"],
+    "engineer-plain": ["m", "m", "m", "m", "m", "m"],
+    "engineer-rewritten": ["w", "w", "w", "w", "w", "w"],
+  },
 };
