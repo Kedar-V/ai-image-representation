@@ -100,8 +100,8 @@
 <main>
   <header class="measure">
     <h1>Mirror or window?</h1>
-    <p class="lede">Ask an AI tool for a picture of a nurse and it has to pick a person. Should that picture match who does the job today, or show who could? I asked a free image model for 60 pictures to see what it picks.</p>
-    <p class="small">For the IDS 704 Week 7 discussion. Images by Pollinations.ai, a free public image model.</p>
+    <p class="lede">Ask an AI tool for a picture of a nurse and it has to pick a person. Should that picture match who does the job today, or show who could? I asked an open image model for 24 pictures of two jobs to see what it picks.</p>
+    <p class="small">For the IDS 704 Week 7 discussion. Images made with FLUX.1-schnell, an open image model, on Hugging Face.</p>
   </header>
 
   <ul class="roles" id="roles" aria-label="Pick a role"></ul>
@@ -127,7 +127,7 @@
   </section>
 
   <section>
-    <h2>Every role on one scale</h2>
+    <h2>Both jobs on one scale</h2>
     <div class="all" id="all"></div>
   </section>
 
@@ -136,17 +136,17 @@
     <ul class="reads">
       <li>If the plain prompt shows fewer women than actually work in a job, the model is exaggerating a pattern that already exists.</li>
       <li>If the rewrite works, it pushes the picture toward balance. That might be what you want for "a CEO" in a career brochure for kids.</li>
-      <li>The same rewrite fails on history. The Mercury Seven were all men, and a tool that adds "gender-balanced" to every prompt ignores what the user asked for.</li>
+      <li>The same rewrite would fail on history. NASA's first astronauts, the Mercury Seven, were all men. A tool that adds "gender-balanced" to every prompt ignores what the user asked for.</li>
       <li>Richter et al. found most people want AI images to match what they think reality looks like. That sense of reality comes partly from the images people see. Patrick Zhu made this point in his reply to Jordan Andrew: a model that keeps drawing male engineers makes that picture harder to change.</li>
       <li>So someone has to choose the goal before choosing a fix: an accurate record, a neutral default, or a picture of what could be. The right choice depends on the prompt and on who is asking.</li>
     </ul>
   </section>
 
   <footer class="small measure">
-    <p>Real-world shares: U.S. Bureau of Labor Statistics, Current Population Survey, Table 11, 2025 annual averages. Construction uses the "construction laborers" category. Richter et al., "Users prefer generative AI to reflect real over idealized gender proportions," <i>Scientific Reports</i>. Images generated with Pollinations.ai, whose free tier adds the watermark.</p>
+    <p>Real-world shares: U.S. Bureau of Labor Statistics, Current Population Survey, Table 11, 2025 annual averages. Richter et al., "Users prefer generative AI to reflect real over idealized gender proportions," <i>Scientific Reports</i>. Images generated with FLUX.1-schnell by Black Forest Labs, run on Hugging Face.</p>
   </footer>
 </main>
-<script src="data.js"></script>
+<script src="data.js?v=3"></script>
 <script>
 const $ = id => document.getElementById(id);
 const word = { w: "woman", m: "man", u: "unclear" };
