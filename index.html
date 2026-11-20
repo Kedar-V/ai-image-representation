@@ -67,29 +67,23 @@
   .frame.pending::after { content: "still developing"; position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 1;
     display: grid; place-items: center; background: #3a4048; color: var(--edge); font-family: "Kalam", cursive; font-size: .95rem; text-align: center; }
 
-  /* scale */
-  .scale { position: relative; height: 64px; margin: 8px 22px 4px 14px; }
-  .scale .axis { position: absolute; left: 0; right: 0; top: 30px; border-top: 2px solid var(--ink); }
-  .scale .tick { position: absolute; top: 24px; height: 14px; border-left: 2px solid var(--ink); }
-  .scale .tl { position: absolute; top: 42px; transform: translateX(-50%); font-size: .8rem; color: var(--muted); }
-  .dot { position: absolute; top: 30px; width: 18px; height: 18px; transform: translate(-50%, -50%); border-radius: 50%; transition: left .5s ease; }
-  .dot.real { border-radius: 2px; background: var(--ink); width: 14px; height: 14px; transform: translate(-50%, -50%) rotate(45deg); }
-  .dot.plain { background: var(--plain); }
-  .dot.rew { background: none; border: 3px solid var(--grease); }
-  @media (prefers-reduced-motion: reduce) { .dot { transition: none; } }
-  .legend { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: .9rem; margin: 4px 0 14px; padding: 0; list-style: none; }
-  .legend li { display: flex; align-items: center; gap: 8px; }
-  .legend .dot { position: static; transform: none; display: inline-block; }
-  .legend .dot.real { transform: rotate(45deg); }
-  .big { font-family: "Kalam", cursive; color: var(--grease); font-size: 1.35rem; line-height: 1.4; margin: 6px 0 0; }
+  /* bar chart */
+  .bars { display: grid; grid-template-columns: minmax(96px, 150px) 1fr; gap: 8px 14px; align-items: center; margin: 10px 0 6px; }
+  .bars .lab { font-size: .9rem; color: var(--muted); text-align: right; }
+  .bars .track { position: relative; height: 26px; background-image: linear-gradient(to right, var(--line) 1px, transparent 1px); background-size: 25% 100%; border-left: 2px solid var(--ink); }
+  .bars .fill { position: absolute; left: 0; top: 3px; bottom: 3px; border-radius: 0 3px 3px 0; min-width: 3px; transition: width .5s ease; }
+  .bars .fill.real { background: var(--muted); }
+  .bars .fill.plain { background: var(--plain); }
+  .bars .fill.rew { background: var(--grease); }
+  .bars .val { position: absolute; top: 50%; transform: translateY(-50%); font-weight: 700; font-size: .9rem; white-space: nowrap; padding: 0 8px; }
+  .bars .val.in { color: #fff; }
+  .bars .axis { grid-column: 2; display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); margin-top: -2px; }
+  .bars .job { grid-column: 1 / -1; font-weight: 700; margin-top: 12px; }
+  .bars .job:first-child { margin-top: 0; }
+  @media (prefers-reduced-motion: reduce) { .bars .fill { transition: none; } }
+  @media (max-width: 560px) { .bars { grid-template-columns: 84px 1fr; } .bars .lab { font-size: .8rem; } }
 
-  .all { display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 0 18px; align-items: center; }
-  .all .name { font-weight: 600; font-size: .95rem; padding: 6px 0; }
-  .all .scale { height: 40px; margin: 0; }
-  .all .scale .axis { top: 20px; border-top: 1px solid var(--line); }
-  .all .dot { top: 20px; width: 14px; height: 14px; }
-  .all .dot.real { width: 11px; height: 11px; }
-  @media (max-width: 560px) { .all { grid-template-columns: 1fr; } .all .name { padding-bottom: 0; } }
+  .big { font-family: "Kalam", cursive; color: var(--grease); font-size: 1.35rem; line-height: 1.4; margin: 6px 0 0; }
 
   ul.reads { padding-left: 1.1em; margin: 0; }
   ul.reads li { margin-bottom: 12px; }
@@ -116,19 +110,15 @@
 
   <section>
     <h2>How many women did it draw?</h2>
-    <ul class="legend">
-      <li><span class="dot real"></span>Real share of women in the job</li>
-      <li><span class="dot plain"></span>Plain prompt</li>
-      <li><span class="dot rew"></span>With rewrite</li>
-    </ul>
-    <div class="scale" id="scale"></div>
+    <div class="bars" id="scale"></div>
     <p class="big" id="take"></p>
     <p class="small" id="src"></p>
   </section>
 
   <section>
     <h2>Both jobs on one scale</h2>
-    <div class="all" id="all"></div>
+    <p class="small">Share of pictures showing a woman, next to the real share of women in each job.</p>
+    <div class="bars" id="all"></div>
   </section>
 
   <section class="measure">
@@ -172,15 +162,19 @@ function strip(el, s) {
   }).join("");
 }
 
-function scale(el, j, ticks) {
+function rows(j) {
   const p = share(j.id, "plain"), r = share(j.id, "rewritten");
-  let h = `<div class="axis"></div>`;
-  if (ticks) for (const t of [0, 25, 50, 75, 100]) h += `<div class="tick" style="left:${t}%"></div><div class="tl" style="left:${t}%">${t}%</div>`;
-  h += `<span class="dot real" style="left:${j.real}%" title="Real: ${j.real}%"></span>`;
-  if (p) h += `<span class="dot plain" style="left:${p.pct}%" title="Plain prompt: ${p.w} of ${p.n}"></span>`;
-  if (r) h += `<span class="dot rew" style="left:${r.pct}%" title="With rewrite: ${r.w} of ${r.n}"></span>`;
-  el.innerHTML = h;
+  const row = (lab, cls, pct, txt) => {
+    const inside = pct >= 30;
+    const pos = inside ? `right:${100 - pct}%` : `left:${pct}%`;
+    return `<div class="lab">${lab}</div><div class="track"><div class="fill ${cls}" style="width:${pct}%"></div><span class="val${inside ? " in" : ""}" style="${pos}">${txt}</span></div>`;
+  };
+  let h = row("Real world", "real", j.real, `${j.real}%`);
+  if (p) h += row("Plain prompt", "plain", p.pct, `${p.w} of ${p.n}`);
+  if (r) h += row("With rewrite", "rew", r.pct, `${r.w} of ${r.n}`);
+  return h;
 }
+const axis = `<div class="axis"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>`;
 
 function render() {
   const j = DATA.jobs.find(x => x.id === job);
@@ -190,7 +184,7 @@ function render() {
   $("q-rew").textContent = DATA.prompts[`${job}-rewritten`];
   strip($("strip-plain"), "plain");
   strip($("strip-rew"), "rewritten");
-  scale($("scale"), j, true);
+  $("scale").innerHTML = rows(j) + axis;
 
   const p = share(job, "plain"), r = share(job, "rewritten");
   let t = "Images are still being generated and labeled. Check back soon.";
@@ -201,8 +195,7 @@ function render() {
   $("take").textContent = t;
   $("src").textContent = j.source;
 
-  $("all").innerHTML = DATA.jobs.map(x => `<div class="name">${x.name}</div><div class="scale" data-j="${x.id}"></div>`).join("");
-  $("all").querySelectorAll(".scale").forEach(el => scale(el, DATA.jobs.find(x => x.id === el.dataset.j), false));
+  $("all").innerHTML = DATA.jobs.map(x => `<div class="job">${x.name}</div>` + rows(x)).join("") + axis;
 }
 render();
 </script>
